@@ -3,12 +3,12 @@
 
 # create the Person class
 class Person:
-    def __init__(self):
+    def __init__(self):  # constructor
         person_name = input('Enter name: ')
         person_age = int(input('Enter age: '))
-        self.name = person_name
-        self.age = person_age
-    
+        self.name = person_name # create name attribute and assign person_name to it
+        self.age = person_age # create age attribute and assign person_age to it
+
     def display_info(self):
         print(f'name: {self.name}')
         print(f'age: {self.age}')

@@ -1,4 +1,4 @@
-#create a simple chess game with a board and pieces
+#create a simple chess game with a board and pieces working fully with Pygame
 import pygame
 from pygame.locals import *
 from PIL import Image, ImageDraw, ImageFont
