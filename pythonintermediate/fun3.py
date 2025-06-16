@@ -1,13 +1,11 @@
-# Write a program to create a function that can take a variable number of keyword arguments.
-#Expected Output
-#{'first':'joe', 'last': 'biden'}
-def print_info(**kwargs):
+# This function takes keyword arguments and returns them as a dictionary.
+# create the function
+def full_name(**kwargs):
+    # print the argument
     for key, value in kwargs.items():
-        print(f"{key}: {value}")
+        return kwargs
 
-# Call the function with keyword arguments
-first = input("Enter first name: ")
-last = input("Enter last name: ")
-print_info(first=first, last=last)
-# Expected Output
-#{'first':'joe', 'last': 'biden'}
+first = input()
+last = input()
+
+print(full_name(first = first, last = last))
