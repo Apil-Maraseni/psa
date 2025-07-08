@@ -30,3 +30,9 @@ data_list = [9,6,1,4,2]
 
 sorted_list = bubble_sort(data_list)
 print(sorted_list)
+
+
+#use cases:
+# small datasets
+# when simplicity is more importnat than efiiciency
+# when data is already partially sorted
