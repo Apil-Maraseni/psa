@@ -46,3 +46,23 @@ data_list = list(map(int, input().split()))
 
 sorted_list = selection_sort(data_list)
 print(sorted_list)
+
+
+def count(lst):
+    swaps = 0
+
+    for i in range(len(lst)):
+        min_index = i
+        for j in range(i+1, len(lst)):
+            if lst[j] < lst[min_index]:
+                min_index = j
+        
+        if lst[i] != lst[min_index]:
+            lst[min_index], lst[i] = lst[i], lst[min_index]
+
+            swaps+=1
+    return swaps
+
+data = list(map(int, input().split()))
+result = count(data)
+print(result) 
