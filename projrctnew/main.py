@@ -1,10 +1,11 @@
+# SAME IMPORTS
 import pygame
 from pygame.locals import *
 from PIL import Image, ImageDraw, ImageFont
 import os
 import sys
 
-# Setup
+# PIECE SETUP
 os.makedirs('images', exist_ok=True)
 pieces = ['pawn', 'rook', 'knight', 'bishop', 'queen', 'king']
 colors = ['white', 'black']
@@ -26,7 +27,7 @@ class ChessGame:
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode((800, 800))
-        pygame.display.set_caption("Simple Chess Game")
+        pygame.display.set_caption("Chess with Check/Checkmate")
         self.clock = pygame.time.Clock()
         self.running = True
         self.selected = None
@@ -100,7 +101,7 @@ class ChessGame:
             return True
 
         if target and target.startswith(color):
-            return False  # can't capture own piece
+            return False
 
         if kind == "pawn":
             direction = -1 if color == "white" else 1
@@ -137,6 +138,47 @@ class ChessGame:
 
         return False
 
+    # ----------- Check and Checkmate Logic -------------
+    def find_king(self, color):
+        for r in range(8):
+            for c in range(8):
+                if self.board[r][c] == f"{color}_king":
+                    return (r, c)
+        return None
+
+    def is_square_attacked(self, row, col, by_color):
+        for r in range(8):
+            for c in range(8):
+                attacker = self.board[r][c]
+                if attacker and attacker.startswith(by_color):
+                    if self.is_valid_move(attacker, (r, c), (row, col)):
+                        return True
+        return False
+
+    def is_in_check(self, color):
+        king_pos = self.find_king(color)
+        if king_pos:
+            return self.is_square_attacked(*king_pos, 'black' if color == 'white' else 'white')
+        return False
+
+    def has_legal_moves(self, color):
+        for r1 in range(8):
+            for c1 in range(8):
+                piece = self.board[r1][c1]
+                if piece and piece.startswith(color):
+                    for r2 in range(8):
+                        for c2 in range(8):
+                            if self.is_valid_move(piece, (r1, c1), (r2, c2)):
+                                backup = self.board[r2][c2]
+                                self.board[r2][c2] = piece
+                                self.board[r1][c1] = None
+                                in_check = self.is_in_check(color)
+                                self.board[r1][c1] = piece
+                                self.board[r2][c2] = backup
+                                if not in_check:
+                                    return True
+        return False
+
     def move_piece(self, start_row, start_col, end_row, end_col):
         if not (0 <= end_row < 8 and 0 <= end_col < 8):
             return
@@ -148,13 +190,24 @@ class ChessGame:
             return
 
         if self.is_valid_move(piece, (start_row, start_col), (end_row, end_col)):
-            target = self.board[end_row][end_col]
-            if target and 'king' in target:
-                print(f"{'White' if piece.startswith('white') else 'Black'} wins!")
-                self.running = False
+            backup = self.board[end_row][end_col]
             self.board[end_row][end_col] = piece
             self.board[start_row][start_col] = None
+
+            color = 'white' if piece.startswith('white') else 'black'
+            if self.is_in_check(color):
+                self.board[start_row][start_col] = piece
+                self.board[end_row][end_col] = backup
+                return
+
             self.white_turn = not self.white_turn
+
+            enemy = 'white' if not self.white_turn else 'black'
+            if self.is_in_check(enemy):
+                print(f"{enemy.capitalize()} is in CHECK!")
+                if not self.has_legal_moves(enemy):
+                    print(f"CHECKMATE! {'White' if piece.startswith('white') else 'Black'} wins!")
+                    self.running = False
 
     def run(self):
         while self.running:
