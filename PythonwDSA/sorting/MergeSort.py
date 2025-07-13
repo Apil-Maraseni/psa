@@ -36,3 +36,45 @@ print(f"Unsorted: {data_list}")
 result = merge_sort(data_list)
 
 print(f"sorted: {result}")
+
+
+
+
+#merge sort in descending order
+def merge_sort(lst):
+    if len(lst) <= 1:
+        return lst
+    
+    mid = len(lst) // 2
+
+    left_partition = merge_sort(lst[:mid])
+    right_partition = merge_sort(lst[mid:])
+
+    return merge(left_partition, right_partition)
+
+
+# define the merge() function
+def merge(left, right):
+    output = []
+    i = 0
+    j = 0
+
+    while i < len(left) and j < len(right):
+        if left[i] > right [j]:
+            output.append(left[i])
+            i+=1
+        else:
+            output.append(right[j])  
+            j+=1
+    output.extend(left[i:])
+    output.extend(right[j:])
+
+    return output
+    
+
+# take integer inputs and convert it to a list
+data_list = list(map(int, input().split()))
+
+sorted_list = merge_sort(data_list)
+
+print(sorted_list)
