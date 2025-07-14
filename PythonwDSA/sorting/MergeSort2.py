@@ -18,3 +18,9 @@ def merge_sorted_lists(lst1, lst2):
     merged.extend(lst1[i:])
     merged.extend(lst2[j:])
     return merged
+
+nums1 = list(map(int, input("Enter first sorted list: ").split()))
+num2 = list(map(int, input("Enter second sorted list: ").split()))
+n= int(input("Enter the value of n:"))
+Result = find_nth_smallest(nums1, num2, n)
+print(Result)
