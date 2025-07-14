@@ -24,3 +24,6 @@ num2 = list(map(int, input("Enter second sorted list: ").split()))
 n= int(input("Enter the value of n:"))
 Result = find_nth_smallest(nums1, num2, n)
 print(Result)
+
+#time complexity 0(n logn)
+#space complexity 0(n)
