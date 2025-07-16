@@ -1,0 +1,37 @@
+import pygame, sys, time
+from datetime import datetime
+
+# --- Config ---
+WIDTH, HEIGHT = 800, 400
+BG_IMG_PATH = 'background.png'  # replace with your hi-res image file
+
+pygame.init()
+screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.SCALED)
+pygame.display.set_caption('High-Res Digital Clock')
+
+# Load and prepare background
+bg = pygame.image.load(BG_IMG_PATH)
+bg = pygame.transform.smoothscale(bg, (WIDTH, HEIGHT))
+bg = bg.convert()
+
+# Font setup
+font = pygame.font.Font(None, 120)
+WHITE = (255, 255, 255)
+
+clock = pygame.time.Clock()
+
+while True:
+    for e in pygame.event.get():
+        if e.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
+    screen.blit(bg, (0, 0))
+
+    now = datetime.now().strftime('%H:%M:%S')
+    txt = font.render(now, True, WHITE)
+    txt_rect = txt.get_rect(center=(WIDTH//2, HEIGHT//2))
+    screen.blit(txt, txt_rect)
+
+    pygame.display.flip()
+    clock.tick(60)
