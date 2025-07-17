@@ -1,5 +1,5 @@
 #middle element as pivot
-
+# This code implements the QuickSort algorithm in Python.
 def quick_sort(lst):
     length = len(lst)
     if length <=1 :
