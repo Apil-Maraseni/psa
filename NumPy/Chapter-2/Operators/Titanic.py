@@ -102,3 +102,5 @@ survived_class3 = np.sum(class3[:,1])
 percentage3 = (survived_class3/total_class3)*100
 
 print("survival percentage of class 3 is", percentage2)
+
+#in this way we can finish the simple program using all the concepts of chapter 2 operations
